@@ -114,13 +114,29 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Optimize
 [theta, J, exit_flag] = ...
-	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
 
+[theta10, J, exit_flag] = ...
+fminunc(@(t)(costFunctionReg(t, X, y, 0.0001)), initial_theta, options);
+
+[theta100, J, exit_flag] = ...
+fminunc(@(t)(costFunctionReg(t, X, y, 100)), initial_theta, options);
+
+figure;
 % Plot Boundary
+subplot(2,2,1);
 plotDecisionBoundary(theta, X, y);
-hold on;
-title(sprintf('lambda = %g', lambda))
+%hold on;
 
+subplot(2,2,2);
+plotDecisionBoundary(theta10, X, y);
+% hold on;
+
+subplot(2,2,3);
+plotDecisionBoundary(theta100, X, y);
+% hold on;
+
+title(sprintf('lambda = %g', lambda))
 % Labels and Legend
 xlabel('Microchip Test 1')
 ylabel('Microchip Test 2')
