@@ -29,7 +29,7 @@ X = data(:, [1, 2]); y = data(:, 3);
 %% ==================== Part 1: Plotting ====================
 %  We start the exercise by first plotting the data to understand the 
 %  the problem we are working with.
-
+%{
 fprintf(['Plotting data with + indicating (y = 1) examples and o ' ...
          'indicating (y = 0) examples.\n']);
 
@@ -47,7 +47,7 @@ hold off;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
-
+%}
 
 %% ============ Part 2: Compute Cost and Gradient ============
 %  In this part of the exercise, you will implement the cost and gradient
