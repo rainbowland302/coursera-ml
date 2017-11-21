@@ -2,9 +2,9 @@
 
 %  Instructions
 %  ------------
-% 
+%
 %  This file contains code that helps you get started on the
-%  linear exercise. You will need to complete the following functions 
+%  linear exercise. You will need to complete the following functions
 %  in this exericse:
 %
 %     sigmoidGradient.m
@@ -21,11 +21,11 @@ clear ; close all; clc
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 400;  % 20x20 Input Images of Digits
 hidden_layer_size = 25;   % 25 hidden units
-num_labels = 10;          % 10 labels, from 1 to 10   
+num_labels = 10;          % 10 labels, from 1 to 10
                           % (note that we have mapped "0" to label 10)
 
 %% =========== Part 1: Loading and Visualizing Data =============
-%  We start the exercise by first loading and visualizing the dataset. 
+%  We start the exercise by first loading and visualizing the dataset.
 %  You will be working with a dataset that contains handwritten digits.
 %
 
@@ -39,14 +39,14 @@ m = size(X, 1);
 sel = randperm(size(X, 1));
 sel = sel(1:100);
 
-displayData(X(sel, :));
+% displayData(X(sel, :));
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 
 %% ================ Part 2: Loading Parameters ================
-% In this part of the exercise, we load some pre-initialized 
+% In this part of the exercise, we load some pre-initialized
 % neural network parameters.
 
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
@@ -54,7 +54,7 @@ fprintf('\nLoading Saved Neural Network Parameters ...\n')
 % Load the weights into variables Theta1 and Theta2
 load('ex4weights.mat');
 
-% Unroll parameters 
+% Unroll parameters
 nn_params = [Theta1(:) ; Theta2(:)];
 
 %% ================ Part 3: Compute Cost (Feedforward) ================
@@ -69,6 +69,7 @@ nn_params = [Theta1(:) ; Theta2(:)];
 %  first so that it will be easier for you to debug. Later, in part 4, you
 %  will get to implement the regularized cost.
 %
+%{
 fprintf('\nFeedforward Using Neural Network ...\n')
 
 % Weight regularization parameter (we set this to 0 here).
@@ -118,7 +119,7 @@ fprintf('\n\n');
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
-
+%}
 
 %% ================ Part 6: Initializing Pameters ================
 %  In this part of the exercise, you will be starting to implment a two
@@ -173,7 +174,7 @@ pause;
 
 
 %% =================== Part 8: Training NN ===================
-%  You have now implemented all the code necessary to train a neural 
+%  You have now implemented all the code necessary to train a neural
 %  network. To train your neural network, we will now use "fmincg", which
 %  is a function which works similarly to "fminunc". Recall that these
 %  advanced optimizers are able to train our cost functions efficiently as
@@ -210,8 +211,8 @@ pause;
 
 
 %% ================= Part 9: Visualize Weights =================
-%  You can now "visualize" what the neural network is learning by 
-%  displaying the hidden units to see what features they are capturing in 
+%  You can now "visualize" what the neural network is learning by
+%  displaying the hidden units to see what features they are capturing in
 %  the data.
 
 fprintf('\nVisualizing Neural Network... \n')

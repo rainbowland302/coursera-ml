@@ -61,10 +61,6 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-% X 5000 * 400
-% theta1 25 * 401
-% theta2 10 * 25
-% h 5000 * 25
 % y 5000 * 1
 % X 5000 * 400
 % Theta1 25 * 401
@@ -79,16 +75,56 @@ a2 = sigmoid( [ones(m,1) X] * Theta1' );
 a3 = sigmoid( [ones(m,1) a2] * Theta2' );
 % a3 5000 * 10
 % y 5000 * 1
-fprintf('%f', size(a3));
 for i = 1:m;
     shapeY = zeros(num_labels, 1);
     shapeY(y(i)) = 1;
+    fprintf('y(i) %f\n', y(i));
+    fprintf('shapeY %f\n', shapeY);
     %[value, index] = max(a3(i,:), [], 2);
     vector_J(i) = ( (log(a3(i,:)) * -shapeY) - log(1 - a3(i,:)) * (1 - shapeY) );
+end;
+%J = 1 / m * sum(vector_J)
+%regulization: lambda / (2 * m) * theta(2:end)' * theta(2:end);
+
+for i = 1:hidden_layer_size;
+    reg1Matrix = lambda / (2 * m) * Theta1(:, 2:end) .* Theta1(:, 2:end);
+end;
+reg1 = sum(sum(reg1Matrix));
+for i = 1:num_labels;
+    reg2Matrix = lambda / (2 * m) * Theta2(:, 2:end) .* Theta2(:, 2:end);
+end;
+reg2 = sum(sum(reg2Matrix));
+
+J = 1 / m * sum(vector_J) + reg1 + reg2;
+%% the J is correct , the block below should be examine
+
+Delta2 = 0;
+Delta1 = 0;
+for i = 1:m;
+    x = [1; X(i, :)']; % 401 * 1
+
+    z2 = [Theta1 * x ]; % 25 * 1
+
+    a2 = [1; sigmoid(z2)];
+
+    z3 = [Theta2 * a2]; % 10 * 1
+
+    a3 = sigmoid(z3);
+
+
+    shapeY = zeros(num_labels, 1);
+    shapeY(y(i)) = 1;
+    delta3 = a3 - shapeY; % 10 * 1
+    fprintf('y(i) %f\n', y(i));
+    fprintf('shapeY %f\n', shapeY);
+    delta2 = Theta2' * delta3 .* [1; sigmoidGradient(z2)]; % 26 * 1
+
+
+    Delta2 = Delta2 + delta3 * a2'; % 10 * 26
+    fprintf('Delta2 %f\n', sum(sum(Delta2)));
+    Delta1 = Delta1 + delta2(2:end) * x'; % x = a1 25 * 401
+    fprintf('Delta1 %f\n', sum(sum(Delta1)));
 end
-% index
-fprintf('%f', size(vector_J));
-J = 1 / m * sum(vector_J)
 
 %Theta1_grad = 1 / m *  X' * ( h - y ) + lambda / m * Theta1(:, 2:end)';
 %Theta1_grad(1) = 1 / m *  X( : , 1)' * ( h - y ); % theta - alpha * grad
@@ -100,7 +136,9 @@ J = 1 / m * sum(vector_J)
 % =========================================================================
 
 % Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
+Theta2_grad = Delta2 / m; % 10 * 26
+Theta1_grad = Delta1 / m; % 25 * 401
 
+grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 end
